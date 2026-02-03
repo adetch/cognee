@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { Suspense, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -36,6 +36,25 @@ const mockMemorySpaces = [
 ]
 
 export default function SettingsPage() {
+  return (
+    <Suspense fallback={<SettingsLoading />}>
+      <SettingsContent />
+    </Suspense>
+  )
+}
+
+function SettingsLoading() {
+  return (
+    <div className="container max-w-4xl py-8">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold">Settings</h1>
+        <p className="text-muted-foreground mt-1">Loading...</p>
+      </div>
+    </div>
+  )
+}
+
+function SettingsContent() {
   const searchParams = useSearchParams()
   const defaultTab = searchParams.get("tab") || "users"
   const [users] = useState(mockUsers)

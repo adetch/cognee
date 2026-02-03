@@ -41,3 +41,11 @@ next-env.d.ts
 
 # Misc
 *.pem
+
+# Python (if present in project root)
+.venv
+__pycache__
+*.py[cod]
+
+# Tutorial/docs
+tutorial_data

@@ -4,10 +4,10 @@ import { QuickQuery } from "@/components/dashboard/quick-query"
 
 export default function Dashboard() {
   return (
-    <div className="space-y-6">
+    <div className="mx-auto max-w-3xl space-y-8">
+      <QuickQuery />
       <UploadZone />
       <ActivityLog />
-      <QuickQuery />
     </div>
   )
 }

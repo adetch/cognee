@@ -1,0 +1,20 @@
+# Python virtual environment
+.venv
+
+# Documentation
+*.md
+!README.md
+
+# Tutorial data
+tutorial_data
+
+# Claude config
+.claude
+
+# Git
+.git
+.gitignore
+
+# IDE
+.idea
+.vscode
