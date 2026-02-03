@@ -46,7 +46,7 @@ export function ActivityLog() {
         </div>
 
         {/* Log Messages */}
-        <ScrollArea className="h-[200px] rounded-md border">
+        <ScrollArea className="h-[200px] rounded-md bg-muted/30">
           <div className="p-4 font-mono text-xs">
             {activityLogs.map((log, i) => (
               <div key={i} className="flex items-start gap-2 py-1">
@@ -65,7 +65,7 @@ export function ActivityLog() {
         {/* Stats */}
         <div className="grid grid-cols-4 gap-4">
           {stats.map((stat) => (
-            <div key={stat.label} className="rounded-lg border bg-muted/50 p-3 text-center">
+            <div key={stat.label} className="rounded-lg bg-muted/50 p-3 text-center">
               <p className="text-2xl font-bold">{stat.value}</p>
               <p className="text-xs text-muted-foreground">{stat.label}</p>
             </div>

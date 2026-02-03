@@ -4,6 +4,7 @@ import "./globals.css"
 import { Sidebar } from "@/components/layout/sidebar"
 import { Header } from "@/components/layout/header"
 import { ThemeProvider } from "@/components/theme-provider"
+import { WorkspaceProvider } from "@/context/workspace-context"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -26,15 +27,17 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex h-screen overflow-hidden">
-            <Sidebar />
-            <div className="flex flex-1 flex-col overflow-hidden">
-              <Header />
-              <main className="flex-1 overflow-auto p-6">
-                {children}
-              </main>
+          <WorkspaceProvider>
+            <div className="flex h-screen overflow-hidden">
+              <Sidebar />
+              <div className="flex flex-1 flex-col overflow-hidden">
+                <Header />
+                <main className="flex-1 overflow-auto p-6">
+                  {children}
+                </main>
+              </div>
             </div>
-          </div>
+          </WorkspaceProvider>
         </ThemeProvider>
       </body>
     </html>

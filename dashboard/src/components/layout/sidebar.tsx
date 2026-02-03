@@ -10,16 +10,25 @@ import {
   Key,
   BookOpen,
   Plug,
-  Brain,
   Settings,
   ChevronLeft,
   Hexagon,
+  LogOut,
+  ChevronDown,
+  Database,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { useState } from "react"
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
+  { name: "Datasets", href: "/datasets", icon: Database },
   { name: "Query", href: "/query", icon: Search },
   { name: "Debugger", href: "/debugger", icon: Bug },
 ]
@@ -31,7 +40,6 @@ const integrationNav = [
 ]
 
 const manageNav = [
-  { name: "Memory Spaces", href: "/memory-spaces", icon: Brain },
   { name: "Settings", href: "/settings", icon: Settings },
 ]
 
@@ -48,12 +56,25 @@ export function Sidebar() {
     >
       {/* Logo */}
       <div className="flex h-16 items-center justify-between border-b px-4">
-        <Link href="/" className="flex items-center gap-2">
-          <Hexagon className="h-8 w-8 text-primary" />
-          {!collapsed && (
-            <span className="text-xl font-bold">Cognee</span>
-          )}
-        </Link>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+              <Hexagon className="h-8 w-8 text-primary" />
+              {!collapsed && (
+                <>
+                  <span className="text-xl font-bold">Cognee</span>
+                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                </>
+              )}
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            <DropdownMenuItem className="text-destructive focus:text-destructive">
+              <LogOut className="h-4 w-4 mr-2" />
+              Logout
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <Button
           variant="ghost"
           size="icon"

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useSearchParams } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -13,7 +14,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Users, Plus, MoreHorizontal, Mail, Shield, Trash2, Server, Check } from "lucide-react"
+import { Users, Plus, MoreHorizontal, Mail, Shield, Trash2, Server, Check, Brain, Info } from "lucide-react"
 
 // Mock data
 const mockUsers = [
@@ -28,9 +29,18 @@ const mockClusters = [
   { id: "cluster-dev", name: "cluster-dev", status: "stopped", tier: "Small" },
 ]
 
+const mockMemorySpaces = [
+  { id: "1", name: "Default", description: "Default memory space for general use", documentCount: 156, isDefault: true },
+  { id: "2", name: "Legal Documents", description: "Contracts and legal files", documentCount: 42, isDefault: false },
+  { id: "3", name: "Research Papers", description: "Academic and research content", documentCount: 89, isDefault: false },
+]
+
 export default function SettingsPage() {
+  const searchParams = useSearchParams()
+  const defaultTab = searchParams.get("tab") || "users"
   const [users] = useState(mockUsers)
   const [clusters] = useState(mockClusters)
+  const [memorySpaces] = useState(mockMemorySpaces)
   const [inviteEmail, setInviteEmail] = useState("")
 
   return (
@@ -42,7 +52,7 @@ export default function SettingsPage() {
         </p>
       </div>
 
-      <Tabs defaultValue="users" className="space-y-6">
+      <Tabs defaultValue={defaultTab} className="space-y-6">
         <TabsList>
           <TabsTrigger value="users" className="gap-2">
             <Users className="h-4 w-4" />
@@ -51,6 +61,10 @@ export default function SettingsPage() {
           <TabsTrigger value="clusters" className="gap-2">
             <Server className="h-4 w-4" />
             Clusters
+          </TabsTrigger>
+          <TabsTrigger value="memory-spaces" className="gap-2">
+            <Brain className="h-4 w-4" />
+            Memory Spaces
           </TabsTrigger>
         </TabsList>
 
@@ -186,6 +200,83 @@ export default function SettingsPage() {
                             {cluster.status}
                           </span>
                         </div>
+                      </div>
+                    </div>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem>
+                          <Check className="h-4 w-4 mr-2" />
+                          Set as Default
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="text-destructive">
+                          <Trash2 className="h-4 w-4 mr-2" />
+                          Delete
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Memory Spaces Tab */}
+        <TabsContent value="memory-spaces" className="space-y-6">
+          <Card className="border-blue-200 bg-blue-50/50 dark:border-blue-900 dark:bg-blue-950/20">
+            <CardContent className="flex items-start gap-3 pt-6">
+              <Info className="h-5 w-5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
+              <div className="text-sm text-blue-800 dark:text-blue-200">
+                <p className="font-medium">Advanced Feature</p>
+                <p className="mt-1 text-blue-700 dark:text-blue-300">
+                  Memory spaces allow you to organize your data into separate isolated contexts.
+                  Each space maintains its own knowledge graph and can be queried independently.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0">
+              <div>
+                <CardTitle className="text-lg">Memory Spaces</CardTitle>
+                <CardDescription>
+                  Organize data into isolated contexts
+                </CardDescription>
+              </div>
+              <Button size="sm" variant="outline">
+                <Plus className="h-4 w-4 mr-2" />
+                New Space
+              </Button>
+            </CardHeader>
+            <CardContent>
+              <div className="divide-y">
+                {memorySpaces.map((space) => (
+                  <div
+                    key={space.id}
+                    className="flex items-center justify-between py-3 first:pt-0 last:pb-0"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="h-9 w-9 rounded-md bg-muted flex items-center justify-center">
+                        <Brain className="h-4 w-4 text-muted-foreground" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <p className="text-sm font-medium">{space.name}</p>
+                          {space.isDefault && (
+                            <Badge variant="secondary" className="text-xs">
+                              Default
+                            </Badge>
+                          )}
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          {space.description} · {space.documentCount} documents
+                        </p>
                       </div>
                     </div>
                     <DropdownMenu>
